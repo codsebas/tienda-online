@@ -2,23 +2,24 @@ const url = 'https://backservicetest-g8emcvdff0fqe2b8.canadacentral-01.azurewebs
 const productosContainer = document.getElementById('productosContainer');
 
 fetch(url)
-.then(response => response.json())
-.then(productos => {
-    productos.forEach(producto => {
-        const col = document.createElement("div");
-        col.className = "col-12 col-md-4";
-        let precioHTML = "";
+    .then(response => response.json())
+    .then(productos => {
+        productos.forEach(producto => {
+            if (!producto.nombre == "" || producto.id == 0 || producto.id == null) {
+                const col = document.createElement("div");
+                col.className = "col-12 col-md-4";
+                let precioHTML = "";
 
-        if(producto.enOferta && producto.precioOferta !== null){
-        precioHTML = `
+                if (producto.enOferta && producto.precioOferta !== null) {
+                    precioHTML = `
             <span class="text-danger">$${parseFloat(producto.precioOferta).toFixed(2)}</span>
             <small class="text-muted text-decoration-line-through">$${parseFloat(producto.precio).toFixed(2)}</small>`
 
-        } else {
-            precioHTML = `$${parseFloat(producto.precio).toFixed(2)}`;
-        }
+                } else {
+                    precioHTML = `$${parseFloat(producto.precio).toFixed(2)}`;
+                }
 
-        col.innerHTML = `
+                col.innerHTML = `
         <article class="card product-card h-100">
           <img src="${producto.imagen}" class="card-img-top product-image" alt="${producto.nombre}"
             loading="lazy">
@@ -37,10 +38,11 @@ fetch(url)
           </div>
         </article>
         `;
-        productosContainer.appendChild(col);
+                productosContainer.appendChild(col);
+            }
+        })
+            .catch(error => {
+                console.error("Error al cargar productos:", error);
+                productosContainer.innerHTML = '<div class="alert alert-danger">No se pudieron cargar los productos.</div>';
+            });
     })
-    .catch(error => {
-        console.error("Error al cargar productos:", error);
-        productosContainer.innerHTML = '<div class="alert alert-danger">No se pudieron cargar los productos.</div>';
-    });
-})
