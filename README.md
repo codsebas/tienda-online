@@ -219,3 +219,10 @@ La página utiliza un enfoque responsivo:
 Carné: **1890-23-12105**
 
 ---
+
+## Últimos cambios
+**Agrega lógica de productos para poder cargar productos
+consumiendo un API**
+![Captura del proyecto](/resources/images/panel-netlify.png
+)
+---
